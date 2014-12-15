@@ -35,7 +35,7 @@ class FviewShowGeom(HasTraits_FViewPlugin):
             import rospy
             import geometry_msgs.msg
 
-            self._subpts = rospy.Publisher('/flymad/geom_poly',
+            _ = rospy.Subscriber('/draw_geom/poly',
                                         geometry_msgs.msg.Polygon,
                                         self._on_geom_poly)
 
@@ -47,7 +47,9 @@ class FviewShowGeom(HasTraits_FViewPlugin):
 
         if self.enabled:
             if self._pts is not None:
-                show_linesegs.extend( [(pt.x,pt.y) for pt in self._pts] )
+                box_points = self._pts[:-1]
+                show_linesegs.extend( [(pt.x,pt.y,box_points[box_points.index(pt)-1].x, box_points[box_points.index(pt)-1].y) for pt in box_points])
+
 
         return show_linesegs
 
@@ -55,9 +57,10 @@ class FviewShowGeom(HasTraits_FViewPlugin):
                                      pixel_format=None,
                                      max_width=None,
                                      max_height=None):
+    
         pass
 
 
     def process_frame(self, cam_id, buf, buf_offset, timestamp, framenumber):
-        return [], [(14,18),(69,87)]#self._show_linesegs()
+        return [], self._show_linesegs()
 
