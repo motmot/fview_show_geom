@@ -7,4 +7,4 @@ Developing
   ```python setup.py develop```
 * use the virtualenv python binary to launch fview so it finds the plugin
   installed in the virtualenv
-  ```~/.virtualenvs/new_show_geom/bin/python /usr/bin/fview```
+  ```~/.virtualenvs/dev_show_geom/bin/python /usr/bin/fview```
